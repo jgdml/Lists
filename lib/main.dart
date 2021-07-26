@@ -15,6 +15,7 @@ Widget build(BuildContext context) {
         title: 'Flutter Demo',
         theme: ThemeData(
             primarySwatch: Colors.blue,
+            colorScheme: ColorScheme.dark()
         ),
         home: Home(),
         );

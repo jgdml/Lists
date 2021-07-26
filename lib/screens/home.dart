@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_lists/screens/sidebar.dart';
 
 
 
@@ -7,11 +8,14 @@ class Home extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
-        return Scaffold(
-            
-            body: Center(
-                child: Text('Teste')
-            ),
+        return Row(
+            children: [
+                SideLayout(),
+                Expanded(
+                    flex: 4,
+                    child: Container()
+                )
+            ]
         );
     }
 }
