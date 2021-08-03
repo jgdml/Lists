@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:just_lists/screens/home.dart';
+import 'package:just_lists/view/home.dart';
 
 
 void main() {

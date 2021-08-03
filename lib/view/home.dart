@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:just_lists/screens/sidebar.dart';
+import 'package:just_lists/view/sidebar.dart';
 
 
 
