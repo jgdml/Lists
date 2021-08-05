@@ -9,11 +9,13 @@ class Home extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         return Row(
-            children: [
-                SideLayout(),
+            
+            children: <Widget>[
+                Sidebar(),
                 Expanded(
-                    flex: 4,
-                    child: Container()
+                    child: Container(
+                        color: Colors.blueGrey.shade900,
+                    )
                 )
             ]
         );

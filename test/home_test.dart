@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:just_lists/validations/home_validation.dart';
+
+import 'validations/home_validation.dart';
 
 void main() {
     group("Home", (){

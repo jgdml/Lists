@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 
-class SideLayout extends StatelessWidget {
-    const SideLayout({Key? key}) : super(key: key);
+class Sidebar extends StatelessWidget {
+    const Sidebar({Key? key}) : super(key: key);
 
     @override
     Widget build(BuildContext context) {
+        var screenW = MediaQuery.of(context).size.width;
+        var screenH = MediaQuery.of(context).size.height;
+
         return Container(
-            child: Expanded(
-                child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                        children: <Widget>[
-                            SizedBox(height: 70),
-                            Image.asset('../assets/logo.png'),
-                            Text('Titulo', style: TextStyle(color: Colors.black))
-                        ]
-                    )
-                ),
-            )
+            color: Colors.grey.shade900,
+            padding: EdgeInsets.only(left: screenW*0.03, right: screenW*0.03),
+            child: Column(
+                children: <Widget>[
+
+                    Image(
+                        image: AssetImage('assets/logo.png'),
+                        width: screenW*0.1,
+                    ),
+
+                    SizedBox(height: screenH*0.03),
+                ],
+            ),
         );
     }
 }
