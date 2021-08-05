@@ -14,7 +14,7 @@ class Home extends StatelessWidget {
                 Sidebar(),
                 Expanded(
                     child: Container(
-                        color: Colors.blueGrey.shade900,
+                        
                     )
                 )
             ]
