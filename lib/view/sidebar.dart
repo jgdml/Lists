@@ -1,29 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:just_lists/view/components/list_button.dart';
+import 'package:just_lists/view/widget/list_button.dart';
 
 class Sidebar extends StatelessWidget {
     const Sidebar({Key? key}) : super(key: key);
 
     @override
     Widget build(BuildContext context) {
-        var screenW = MediaQuery.of(context).size.width;
-        var screenH = MediaQuery.of(context).size.height;
+        var sidebarW = MediaQuery.of(context).size.width * 0.2;
+        var sidebarH = MediaQuery.of(context).size.height;
 
         return Container(
-            color: Colors.grey.shade900,
-            padding: EdgeInsets.only(left: screenW*0.03, right: screenW*0.03),
+            width: sidebarW,
+            alignment: Alignment.center,
+
+            decoration: BoxDecoration(
+                color: Colors.grey.shade900,
+                borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10))
+            ),
+
             child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
 
-                    SizedBox(height: screenH*0.03),
-
+                    Spacer(),
                     Image(
                         image: AssetImage('assets/logo.png'),
-                        width: screenW*0.1,
+                        height: sidebarH*0.1,
                     ),
-
-                    SizedBox(height: screenH*0.03),
+                    Spacer(),
 
                     ListButton(
                         texto: Text("Nova lista"), 
@@ -32,8 +37,8 @@ class Sidebar extends StatelessWidget {
                     ),
 
                     Container(
-                        width: 200,
-                        height: screenH*0.7,
+                        width: sidebarW*0.7,
+                        height: sidebarH*0.7,
                         child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
@@ -50,6 +55,7 @@ class Sidebar extends StatelessWidget {
                         ),
                     ),
                 
+                    Spacer(),
                     ListButton(
                         texto: Text("Configurações"), 
                         icone: Icon(Icons.settings), 

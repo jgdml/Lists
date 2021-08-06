@@ -8,16 +8,16 @@ class Home extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
-        return Row(
-            
-            children: <Widget>[
-                Sidebar(),
-                Expanded(
-                    child: Container(
+        return Scaffold(
+
+            body: Container(
+                child: Row(
+                    children: [
+                        Sidebar(),
                         
-                    )
+                    ],
                 )
-            ]
+            ),
         );
     }
 }
