@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:just_lists/view/sidebar.dart';
+import 'package:just_lists/view/widget/list_item.dart';
 
 
 
@@ -8,16 +8,14 @@ class Home extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
-        return Scaffold(
-
-            body: Container(
-                child: Row(
-                    children: [
-                        Sidebar(),
-                        
-                    ],
-                )
-            ),
+        return Container(
+            child: Column(
+                children: [
+                    ListItem(),
+                    ListItem(),
+                    ListItem()
+                ]
+            )
         );
     }
 }

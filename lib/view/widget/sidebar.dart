@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:just_lists/constants.dart';
 import 'package:just_lists/view/widget/list_button.dart';
 
 class Sidebar extends StatelessWidget {
-    const Sidebar({Key? key}) : super(key: key);
+
+
+
 
     @override
     Widget build(BuildContext context) {
@@ -33,7 +36,7 @@ class Sidebar extends StatelessWidget {
                     ListButton(
                         texto: Text("Nova lista"), 
                         icone: Icon(Icons.add), 
-                        func: () => null
+                        func: () => Navigator.of(context).pushReplacementNamed(Constants.NAV_CREATE_LIST)
                     ),
 
                     Container(
@@ -44,7 +47,7 @@ class Sidebar extends StatelessWidget {
                             scrollDirection: Axis.vertical,
                             physics: AlwaysScrollableScrollPhysics(),
 
-                            itemCount: 50,
+                            itemCount: 16,
                             itemBuilder: (BuildContext context, int index){
                                 return ListButton(
                                     texto: Text("Lista "+(index+1).toString()), 
@@ -59,7 +62,7 @@ class Sidebar extends StatelessWidget {
                     ListButton(
                         texto: Text("Configurações"), 
                         icone: Icon(Icons.settings), 
-                        func: () => null
+                        func: () => Navigator.of(context).pushReplacementNamed(Constants.NAV_CONFIG)
                     ),
                 ],
             ),
