@@ -13,7 +13,7 @@ class Sidebar extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
-        var sidebarW = MediaQuery.of(context).size.width * 0.18;
+        var sidebarW = MediaQuery.of(context).size.width * 0.2;
         var sidebarH = MediaQuery.of(context).size.height;
 
         return Container(
@@ -41,25 +41,31 @@ class Sidebar extends StatelessWidget {
                     Spacer(),
                     
                     ListButton(
+                        width: sidebarW,
                         texto: "Nova lista", 
                         icone: Icon(Icons.add), 
-                        func: selected == 1 ? null : () => _back.goToCreateList(context) 
+                        func: () => _back.goToCreateList(context),
+                        selected: selected == 1,
                     ),
 
                     Spacer(),
 
                     ListButton(
+                        width: sidebarW,
                         texto: "Minhas Listas", 
                         icone: Icon(Icons.list), 
-                        func: selected != 2 ? () => _back.goToMyLists(context) : null
+                        func: () => _back.goToMyLists(context),
+                        selected: selected == 2,
                     ),
 
-                    Spacer(flex: 16),
+                    Spacer(flex: 18),
 
                     ListButton(
+                        width: sidebarW,
                         texto: "Configurações", 
                         icone: Icon(Icons.settings), 
-                        func: selected != 3 ? () => _back.goToConfig(context) : null
+                        func: () => _back.goToConfig(context),
+                        selected: selected == 3,
                     ),
                 ],
             ),

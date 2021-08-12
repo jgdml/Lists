@@ -6,22 +6,37 @@ class ListButton extends StatelessWidget {
     final Icon icone;
     final void Function()? func;
 
+    final bool selected;
+    final double? width;
+
     const ListButton({
         required this.texto, 
         required this.icone, 
-        required this.func
+        required this.func,
+
+        this.width,
+        this.selected = false
     });
 
     @override
     Widget build(BuildContext context) {
 
         return Container(
+            width: width,
             child: TextButton.icon(
-                onPressed: func,
-                icon: this.icone,
-                label: Text(this.texto, style: TextStyle(fontSize: 20)),
+                
+                onPressed: selected ? null : func,
+                icon: this.icone,                
+                label: Text(this.texto, style: TextStyle(fontSize: 18, color: selected ? Colors.white : null)),
+                
                 style: ButtonStyle(
-                    padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(20)),
+                    padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(26)),
+                
+                    backgroundColor: selected ? MaterialStateProperty.all<Color>(Colors.lightBlue) : null,
+
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(borderRadius: BorderRadius.zero)
+                    )
                 ),
             )
         );
