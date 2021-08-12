@@ -17,32 +17,36 @@ class BlockButton extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
-        return Container(
+        return Ink(
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 3, offset: Offset(2, 2))]
             ),
-            padding: EdgeInsets.all(50),
-
+            
             child: InkWell(
                 onTap: () => null,
-                child: Column(children: [
-                    Icon(icone, size: 50, color: Theme.of(context).primaryColor),
-                    Text(
-                        titulo, 
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold
-                        )
-                    ),
-                    Text(
-                        subtitulo,
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.grey.shade600
+
+                child: Container(
+                    padding: EdgeInsets.all(50),
+
+                    child: Column(children: [
+                        Icon(icone, size: 50, color: Theme.of(context).primaryColor),
+                        Text(
+                            titulo, 
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold
+                            )
                         ),
-                    )
-                ]),
+                        Text(
+                            subtitulo,
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.grey.shade600
+                            ),
+                        )
+                    ]),
+                ),
             ),
         );
     }
