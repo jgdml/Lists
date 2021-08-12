@@ -27,11 +27,13 @@ class Config extends StatelessWidget {
                                     icone: Icons.account_box,
                                     titulo: "Conta",
                                     subtitulo: "Configurações da sua conta",
+                                    func: () => null,
                                 ),
                                 BlockButton(
                                     icone: Icons.brush,
                                     titulo: "Tema",
                                     subtitulo: "Configurar tema do aplicativo",
+                                    func: () => null,
                                 )
                             ]
                         )
