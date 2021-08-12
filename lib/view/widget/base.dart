@@ -4,14 +4,16 @@ import 'package:just_lists/view/widget/sidebar.dart';
 class Base extends StatelessWidget {
     final Widget child;
 
-    const Base(this.child);
+    final int selected;
+
+    const Base(this.child, {this.selected = 0});
     
     @override
     Widget build(BuildContext context) {
         return Scaffold(
             body: Row(
                 children: [
-                    Sidebar(),
+                    Sidebar(selected: selected),
                     Expanded(child: child)
                 ]
             ),
