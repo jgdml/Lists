@@ -6,12 +6,6 @@ class ListItem extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         return Row(
-            children: [
-                Text('a'),
-                Text('b'),
-                Text('c'),
-                Text('d'),
-            ]
         );
     }
 }

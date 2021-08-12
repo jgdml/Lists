@@ -6,7 +6,7 @@ class Lista{
     
     String nome;
     TipoLista tipoLista;
-    bool isPublic = false;
+    bool isPrivate = true;
 
     Lista({this.id, required this.nome, required this.tipoLista});
 }

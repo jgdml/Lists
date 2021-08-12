@@ -12,7 +12,7 @@ class _CreateListState extends State<CreateList> {
     final _formState = GlobalKey<FormState>();
 
 
-    bool isPublic = false;
+    bool isPrivate = true;
 
     Widget titleField(){
         return TextFormField(
@@ -21,7 +21,7 @@ class _CreateListState extends State<CreateList> {
             style: TextStyle(fontSize: 18),
             decoration: InputDecoration(
                 labelText: "Título",
-                hintText: "Lista 1"
+                hintText: "Lista número 1"
             ),
         );
     }
@@ -30,19 +30,20 @@ class _CreateListState extends State<CreateList> {
         return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-                Text("É lista privada? ", style: TextStyle(fontSize: 18)),
+                Text("Privacidade", style: TextStyle(fontSize: 18)),
                 Switch(
                     onChanged: (val) {
                         setState(() {
-                            isPublic = val;
+                            isPrivate = val;
                         });
                     },
-                    value: isPublic,
+                    value: isPrivate,
                 ),
+                isPrivate ? Icon(Icons.lock_outline) : Icon(Icons.lock_open),
+                Text("Lista " + (isPrivate ? "privada" : "pública"))
             ],
         );
     }
-
 
     @override
     Widget build(BuildContext context) {
@@ -75,7 +76,7 @@ class _CreateListState extends State<CreateList> {
                                 child: Column(
                                     children: [
                                         titleField(),
-                                        privacyField()
+                                        privacyField(),
                                     ],
                                 ),
                             ),
