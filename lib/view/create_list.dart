@@ -9,16 +9,15 @@ class CreateList extends StatefulWidget {
 }
 
 class _CreateListState extends State<CreateList> {
-    
     final _formState = GlobalKey<FormState>();
 
 
+    bool isPublic = false;
+
     Widget titleField(){
         return TextFormField(
-
-            autofocus: true,
-            maxLength: 20,
-
+            maxLength: 50,
+            
             style: TextStyle(fontSize: 18),
             decoration: InputDecoration(
                 labelText: "Título",
@@ -27,9 +26,29 @@ class _CreateListState extends State<CreateList> {
         );
     }
 
+    Widget privacyField(){
+        return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+                Text("É lista privada? ", style: TextStyle(fontSize: 18)),
+                Switch(
+                    onChanged: (val) {
+                        setState(() {
+                            isPublic = val;
+                        });
+                    },
+                    value: isPublic,
+                ),
+            ],
+        );
+    }
+
 
     @override
     Widget build(BuildContext context) {
+        var sizeW = MediaQuery.of(context).size.width * 0.3;
+        var sizeH = MediaQuery.of(context).size.height * 0.4;
+
         return Scaffold(
             body: Center(
                 child: Column(
@@ -42,12 +61,21 @@ class _CreateListState extends State<CreateList> {
                         Spacer(flex: 5),
 
                         Container(
-                            width: 250,
+                            width: sizeW,
+                            height: sizeH,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                                boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 3, offset: Offset(2, 2))]
+                            ),
+                            padding: EdgeInsets.all(80),
+                            
                             child: Form(
                                 key: _formState,
                                 child: Column(
                                     children: [
-                                        titleField()
+                                        titleField(),
+                                        privacyField()
                                     ],
                                 ),
                             ),
