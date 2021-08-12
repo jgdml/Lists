@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ListButton extends StatelessWidget {
 
-    final Text texto;
+    final String texto;
     final Icon icone;
     final void Function()? func;
 
@@ -19,7 +19,7 @@ class ListButton extends StatelessWidget {
             child: TextButton.icon(
                 onPressed: func,
                 icon: this.icone,
-                label: this.texto,
+                label: Text(this.texto, style: TextStyle(fontSize: 20)),
                 style: ButtonStyle(
                     padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(20)),
                 ),
