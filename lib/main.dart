@@ -3,6 +3,7 @@ import 'package:just_lists/constants.dart';
 import 'package:just_lists/view/config.dart';
 import 'package:just_lists/view/create_list.dart';
 import 'package:just_lists/view/home.dart';
+import 'package:just_lists/view/my_lists.dart';
 import 'package:just_lists/view/widget/base.dart';
 
 void main() {
@@ -22,8 +23,11 @@ class JustLists extends StatelessWidget {
 
             routes: {
                 Constants.NAV_HOME: (context) => Base(Home()),
-                Constants.NAV_CREATE_LIST: (context) => Base(CreateList()),
-                Constants.NAV_CONFIG: (context) => Base(Config())
+
+                Constants.NAV_CREATE_LIST: (context) => Base(CreateList(), selected: 1),
+                Constants.NAV_MY_LISTS: (context) => Base(MyLists(), selected: 2),
+
+                Constants.NAV_CONFIG: (context) => Base(Config(), selected: 3)
             }
         );
     }   
