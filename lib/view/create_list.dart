@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_lists/view/widget/page_title.dart';
+import 'package:just_lists/view/widget/responsive_text.dart';
 
 class CreateList extends StatefulWidget {
     const CreateList({ Key? key }) : super(key: key);
@@ -30,7 +31,7 @@ class _CreateListState extends State<CreateList> {
         return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-                Text("Privacidade", style: TextStyle(fontSize: 18)),
+                ResponsiveText("Privacidade"),
                 Switch(
                     onChanged: (val) {
                         setState(() {
@@ -40,15 +41,15 @@ class _CreateListState extends State<CreateList> {
                     value: isPrivate,
                 ),
                 isPrivate ? Icon(Icons.lock_outline) : Icon(Icons.lock_open),
-                Text("Lista " + (isPrivate ? "privada" : "pública"))
+                ResponsiveText("Lista " + (isPrivate ? "privada" : "pública"))
             ],
         );
     }
 
     @override
     Widget build(BuildContext context) {
-        var sizeW = MediaQuery.of(context).size.width * 0.3;
-        var sizeH = MediaQuery.of(context).size.height * 0.4;
+        var sizeW = MediaQuery.of(context).size.width * 0.4;
+        
 
         return Scaffold(
             body: Center(
@@ -63,7 +64,7 @@ class _CreateListState extends State<CreateList> {
 
                         Container(
                             width: sizeW,
-                            height: sizeH,
+                            
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.all(Radius.circular(20)),

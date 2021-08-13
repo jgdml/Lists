@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_lists/view/widget/responsive_text.dart';
 
 class BlockButton extends StatelessWidget {
 
@@ -32,18 +33,16 @@ class BlockButton extends StatelessWidget {
 
                     child: Column(children: [
                         Icon(icone, size: 50, color: Theme.of(context).primaryColor),
-                        Text(
+                        ResponsiveText(
                             titulo, 
-                            style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold
-                            )
+                            multiplier: 1.22, 
+                            fontWeight: FontWeight.bold
+                            
                         ),
-                        Text(
+                        ResponsiveText(
                             subtitulo,
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.grey.shade600
-                            ),
+                            multiplier: 1.22,
+                            color: Colors.grey.shade600
                         )
                     ]),
                 ),

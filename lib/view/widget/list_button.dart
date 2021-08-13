@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_lists/view/widget/responsive_text.dart';
 
 class ListButton extends StatelessWidget {
 
@@ -27,7 +28,7 @@ class ListButton extends StatelessWidget {
                 
                 onPressed: selected ? null : func,
                 icon: this.icone,                
-                label: Text(this.texto, style: TextStyle(fontSize: 18, color: selected ? Colors.white : null)),
+                label: ResponsiveText(this.texto, multiplier: 1.16, color: selected ? Colors.white : null),
                 
                 style: ButtonStyle(
                     padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(26)),
