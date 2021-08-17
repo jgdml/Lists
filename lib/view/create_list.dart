@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_lists/view/widget/decorated_container.dart';
 import 'package:just_lists/view/widget/page_title.dart';
 import 'package:just_lists/view/widget/responsive_text.dart';
 
@@ -49,10 +50,21 @@ class _CreateListState extends State<CreateList> {
         );
     }
 
+    Widget typeField(){
+        return FittedBox(
+          child: DropdownButton(
+              items: ['tipo 1 ', 'tipo2'].map((var val) {
+                  return DropdownMenuItem(value: val, child: Text(val));
+              }).toList(),
+              onChanged: (a) => null,
+              hint: Text('Selecione o tipo da lista'),
+              style: TextStyle(fontSize: 18),
+          ),
+        );
+    }
+
     @override
     Widget build(BuildContext context) {
-        var sizeW = MediaQuery.of(context).size.width * 0.4;
-        
 
         return Scaffold(
             body: Center(
@@ -65,22 +77,22 @@ class _CreateListState extends State<CreateList> {
 
                         Spacer(flex: 5),
 
-                        Container(
-                            width: sizeW,
-                            
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
-                                boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 3, offset: Offset(2, 2))]
-                            ),
-                            padding: EdgeInsets.all(80),
-                            
+                        DecoratedContainer(                        
                             child: Form(
                                 key: _formState,
                                 child: Column(
                                     children: [
                                         titleField(),
+
+                                        Spacer(),
+
                                         privacyField(),
+
+                                        Spacer(),
+
+                                        typeField(),
+
+                                        Spacer(flex: 2)
                                     ],
                                 ),
                             ),
