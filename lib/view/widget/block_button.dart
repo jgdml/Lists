@@ -31,20 +31,28 @@ class BlockButton extends StatelessWidget {
                 child: Container(
                     padding: EdgeInsets.all(50),
 
-                    child: Column(children: [
-                        Icon(icone, size: 50, color: Theme.of(context).primaryColor),
-                        ResponsiveText(
-                            titulo, 
-                            multiplier: 1.22, 
-                            fontWeight: FontWeight.bold
+                    child: FittedBox(
+                      child: Column(children: [
+                          Icon(icone, size: 50, color: Theme.of(context).primaryColor),
+                          Text(
+                              titulo, 
+                              style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold
+                              ),
                             
-                        ),
-                        ResponsiveText(
-                            subtitulo,
-                            multiplier: 1.22,
-                            color: Colors.grey.shade600
-                        )
-                    ]),
+                
+                          ),
+                          Text(
+                              subtitulo,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.grey.shade600
+                              ),
+
+                          )
+                      ]),
+                    ),
                 ),
             ),
         );

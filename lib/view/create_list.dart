@@ -22,27 +22,30 @@ class _CreateListState extends State<CreateList> {
             style: TextStyle(fontSize: 18),
             decoration: InputDecoration(
                 labelText: "Título",
-                hintText: "Lista número 1"
+                hintText: "Lista número 1",
+                border: OutlineInputBorder()
             ),
         );
     }
 
     Widget privacyField(){
-        return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-                ResponsiveText("Privacidade"),
-                Switch(
-                    onChanged: (val) {
-                        setState(() {
-                            isPrivate = val;
-                        });
-                    },
-                    value: isPrivate,
-                ),
-                isPrivate ? Icon(Icons.lock_outline) : Icon(Icons.lock_open),
-                ResponsiveText("Lista " + (isPrivate ? "privada" : "pública"))
-            ],
+        return FittedBox(
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                    Text("Privacidade", style: TextStyle(fontSize: 18)),
+                    Switch(
+                        onChanged: (val) {
+                            setState(() {
+                                isPrivate = val;
+                            });
+                        },
+                        value: isPrivate,
+                    ),
+                    isPrivate ? Icon(Icons.lock_outline) : Icon(Icons.lock_open),
+                    Text("Lista " + (isPrivate ? "privada" : "pública"), style: TextStyle(fontSize: 16))
+                ],
+            ),
         );
     }
 
