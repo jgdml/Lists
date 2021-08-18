@@ -28,12 +28,13 @@ class ListButton extends StatelessWidget {
                 
                 onPressed: selected ? null : func,
                 icon: this.icone,                
-                label: ResponsiveText(this.texto, multiplier: 1.16, color: selected ? Colors.white : null),
+                label: ResponsiveText(this.texto, multiplier: 1.16),
                 
                 style: ButtonStyle(
                     padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(26)),
                 
                     backgroundColor: selected ? MaterialStateProperty.all<Color>(Colors.lightBlue) : null,
+                    foregroundColor: selected ? MaterialStateProperty.all<Color>(Colors.white) : null,
 
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(borderRadius: BorderRadius.zero)
