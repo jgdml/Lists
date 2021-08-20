@@ -13,7 +13,7 @@ class BlockButton extends StatelessWidget {
         required this.icone, 
         required this.titulo, 
         required this.subtitulo, 
-        this.func
+        required this.func
     }) : super(key: key);
 
     @override
@@ -26,10 +26,10 @@ class BlockButton extends StatelessWidget {
             ),
             
             child: InkWell(
-                onTap: () => null,
+                onTap: func,
 
                 child: Container(
-                    padding: EdgeInsets.all(50),
+                    padding: EdgeInsets.symmetric(horizontal: 80, vertical: 40),
 
                     child: FittedBox(
                       child: Column(children: [
