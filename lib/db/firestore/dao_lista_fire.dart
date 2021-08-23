@@ -57,7 +57,7 @@ class DaoListaFire implements DaoListaInterface {
         convDoc = {
             'titulo': lista.titulo,
             'isPrivate': lista.isPrivate,
-            'registros': lista.registros.map(
+            'registros': lista.registros!.map(
                 (reg) {
                     return {
                         "nome": reg!.nome,

@@ -4,9 +4,9 @@ class Lista{
 
     String? id;
     
-    String titulo;
-    List<Registro?> registros;
-    bool isPrivate;
+    String? titulo;
+    List<Registro?>? registros;
+    bool? isPrivate;
 
-    Lista({this.id, required this.titulo, required this.registros, required this.isPrivate});
+    Lista({this.id, this.titulo, this.registros, this.isPrivate=true});
 }
