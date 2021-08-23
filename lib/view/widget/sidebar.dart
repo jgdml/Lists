@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:just_lists/view/widget/list_button.dart';
-import 'package:just_lists/view/widget/sidebar_back.dart';
+import 'package:just_lists/view/widget/widget_controller/sidebar_controller.dart';
 
 class Sidebar extends StatelessWidget {
 
-    final _back = SidebarBack();
+    final _back = SidebarController();
 
     final int selected;
 

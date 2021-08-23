@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:just_lists/constants.dart';
 
-class SidebarBack{
+class SidebarController{
 
     goToHome(BuildContext context){
         Navigator.of(context).pushReplacementNamed(Constants.NAV_HOME);

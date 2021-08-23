@@ -33,7 +33,7 @@ class ListButton extends StatelessWidget {
                 style: ButtonStyle(
                     padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(26)),
                 
-                    backgroundColor: selected ? MaterialStateProperty.all<Color>(Colors.lightBlue) : null,
+                    backgroundColor: selected ? MaterialStateProperty.all<Color>(Theme.of(context).primaryColor) : null,
                     foregroundColor: selected ? MaterialStateProperty.all<Color>(Colors.white) : null,
 
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(

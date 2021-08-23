@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:just_lists/constants.dart';
@@ -19,15 +17,15 @@ void main() async {
 
     runApp(JustLists());
 
-    testesFirestore();
+    // testesFirestore();
 }
 
 testesFirestore() async {
-        DaoListaFire daoListaFire = DaoListaFire();
+    DaoListaFire daoListaFire = DaoListaFire();
     var listas = await daoListaFire.buscar();
 
-    for (var lista in listas){
-        print(lista.titulo);        
+    for (var lista in listas) {
+        print(lista.titulo);
     }
 
     daoListaFire.salvar(
@@ -59,16 +57,16 @@ class JustLists extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         return MaterialApp(
-                title: 'JustLists',
-                theme: ThemeData(
-                    primarySwatch: Colors.lightBlue,
-                ),
-                routes: {
-                    Constants.NAV_HOME: (context) => Base(Home()),
-                    Constants.NAV_CREATE_LIST: (context) =>
-                            Base(CreateList(), selected: 1),
-                    Constants.NAV_MY_LISTS: (context) => Base(MyLists(), selected: 2),
-                    Constants.NAV_CONFIG: (context) => Base(Config(), selected: 3)
-                });
+            title: 'JustLists',
+            theme: ThemeData(
+                primarySwatch: Colors.red,
+            ),
+            routes: {
+                Constants.NAV_HOME: (context) => Base(Home()),
+                Constants.NAV_CREATE_LIST: (context) => Base(CreateList(), selected: 1),
+                Constants.NAV_MY_LISTS: (context) => Base(MyLists(), selected: 2),
+                Constants.NAV_CONFIG: (context) => Base(Config(), selected: 3)
+            },
+        );
     }
 }
