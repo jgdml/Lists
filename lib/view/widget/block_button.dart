@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:just_lists/view/widget/responsive_text.dart';
 
 class BlockButton extends StatelessWidget {
 

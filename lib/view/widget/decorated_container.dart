@@ -8,7 +8,7 @@ class DecoratedContainer extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         var sizeW = MediaQuery.of(context).size.width * 0.6;
-        var sizeH = MediaQuery.of(context).size.height * 0.7;
+        var sizeH = MediaQuery.of(context).size.height * 0.82;
 
         return Container(
             width: sizeW,

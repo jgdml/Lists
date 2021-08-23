@@ -8,7 +8,7 @@ class CustomButton extends StatelessWidget {
             required this.label})
             : super(key: key);
 
-    final Function? onPressed;
+    final Function()? onPressed;
     final Widget icon;
     final String label;
 
@@ -16,7 +16,7 @@ class CustomButton extends StatelessWidget {
     Widget build(BuildContext context) {
         return FittedBox(
             child: ElevatedButton.icon(
-                onPressed: () => null,
+                onPressed: onPressed,
                 icon: icon,
                 label: Text(
                     label,
