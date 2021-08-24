@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:just_lists/domain/interface/dao_lista_i.dart';
 import 'package:just_lists/domain/model/lista.dart';
 import 'package:just_lists/domain/model/registro.dart';
+import 'package:just_lists/domain/model/usuario.dart';
 
 class DaoListaFire implements DaoListaInterface {
     late CollectionReference listaCollection;
@@ -13,14 +14,14 @@ class DaoListaFire implements DaoListaInterface {
 
     @override
     Future<List<Lista>> buscar({idUsuario}) async {
-        var res = await listaCollection.get();
+        QuerySnapshot<Object?> res;
 
-        // if (idUsuario != null){
-        //     res = await listaCollection.where('idUsuario', isEqualTo: idUsuario).get();
-        // }
-        // else {
-        //     res = await listaCollection.where('isPrivate', isEqualTo: false).get();
-        // }
+        if (idUsuario != null){
+            res = await listaCollection.where('idUsuario', isEqualTo: idUsuario).get();
+        }
+        else {
+            res = await listaCollection.where('isPrivate', isEqualTo: false).get();
+        }
 
         var listas = res.docs.map((lista) {
             return _convertToLista(lista);
@@ -43,6 +44,7 @@ class DaoListaFire implements DaoListaInterface {
 
         convLista = Lista(
             id: lista.id,
+            usuario: Usuario(id: lista['idUsuario'], nome: lista['nomeUsuario'],),
             titulo: lista['titulo'],
             isPrivate: lista['isPrivate'],
             registros: registros,
@@ -62,6 +64,8 @@ class DaoListaFire implements DaoListaInterface {
         var convDoc;
 
         convDoc = {
+            'idUsuario': lista.usuario.id,
+            'nomeUsuario': lista.usuario.nome,
             'titulo': lista.titulo,
             'isPrivate': lista.isPrivate,
             'registros': lista.registros.map(

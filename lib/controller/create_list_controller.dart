@@ -1,6 +1,7 @@
 import 'package:just_lists/domain/model/lista.dart';
 import 'package:just_lists/domain/model/registro.dart';
 import 'package:just_lists/domain/service/lista_service.dart';
+import 'package:just_lists/domain/service/usuario_service.dart';
 
 class CreateListController{
 
@@ -8,12 +9,14 @@ class CreateListController{
 
     var _svc = ListaService();
 
+    var _userSvc = UsuarioService();
+
     bool _tituloValido = false;
     bool _registroValido = false;
 
 
     CreateListController(){
-        lista = Lista(registros: <Registro>[]);
+        lista = Lista(registros: <Registro>[], usuario: _userSvc.usuario!);
     }
 
     bool get isValido => _tituloValido && _registroValido;

@@ -50,7 +50,7 @@ class Lists extends StatelessWidget {
                                             return BlockButton(
                                                 icone: Icons.list,
                                                 titulo: lista.titulo.toString(),
-                                                subtitulo: "username",
+                                                subtitulo: lista.usuario.nome.toString(),
                                                 func: () => _controller.irParaLista(context, index),
                                             );
                                         },

@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:just_lists/constants.dart';
 import 'package:just_lists/domain/model/lista.dart';
 import 'package:just_lists/domain/service/lista_service.dart';
+import 'package:just_lists/domain/service/usuario_service.dart';
 
 
 class ListsController{
 
     var _svc = ListaService();
+
+    var _userSvc = UsuarioService();
 
     Future<List<Lista>>? listas;
     bool isHome;
@@ -22,7 +25,7 @@ class ListsController{
             listas = _svc.buscar();
         }
         else{
-            listas = _svc.buscar(idUsuario: "");
+            listas = _svc.buscar(idUsuario: _userSvc.usuario!.id);
         }
     }
 
