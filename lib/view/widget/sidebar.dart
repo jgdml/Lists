@@ -22,7 +22,6 @@ class Sidebar extends StatelessWidget {
 
             decoration: BoxDecoration(
                 color: Colors.grey.shade900,
-                borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10))
             ),
 
             child: Column(

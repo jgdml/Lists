@@ -1,56 +1,43 @@
 import 'package:flutter/material.dart';
 
 class BlockButton extends StatelessWidget {
-
     final IconData icone;
     final String titulo;
     final String subtitulo;
     final Function()? func;
 
-    const BlockButton({ 
-        Key? key, 
-        required this.icone, 
-        required this.titulo, 
-        required this.subtitulo, 
-        required this.func
-    }) : super(key: key);
+    const BlockButton(
+            {Key? key,
+            required this.icone,
+            required this.titulo,
+            required this.subtitulo,
+            required this.func})
+            : super(key: key);
 
     @override
     Widget build(BuildContext context) {
-        return Ink(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 3, offset: Offset(2, 2))]
-            ),
-            
-            child: InkWell(
-                onTap: func,
-
-                child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 80, vertical: 40),
-
-                    child: FittedBox(
-                      child: Column(children: [
-                          Icon(icone, size: 50, color: Theme.of(context).primaryColor),
-                          Text(
-                              titulo, 
-                              style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold
-                              ),
-                            
-                
-                          ),
-                          Text(
-                              subtitulo,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.grey.shade600
-                              ),
-
-                          )
-                      ]),
+        return Material(
+            elevation: 5,
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.white,
+            child: Ink(
+                child: InkWell(
+                    onTap: func,
+                    child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 70, vertical: 40),
+                        child: FittedBox(
+                            child: Column(children: [
+                                Icon(icone, size: 50, color: Theme.of(context).primaryColor),
+                                Text(
+                                    titulo,
+                                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                    subtitulo,
+                                    style: TextStyle(fontSize: 20, color: Colors.grey.shade600),
+                                ),
+                            ]),
+                        ),
                     ),
                 ),
             ),

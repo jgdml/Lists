@@ -16,7 +16,7 @@ class DecoratedContainer extends StatelessWidget {
             
             decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderRadius: BorderRadius.all(Radius.circular(5)),
                 boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 3, offset: Offset(2, 2))]
             ),
             padding: EdgeInsets.all(sizeW * 0.1),
