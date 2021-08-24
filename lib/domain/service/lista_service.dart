@@ -8,8 +8,8 @@ class ListaService {
     var _daoLista = DaoListaFire();
 
     
-    Future<List<Lista>> buscar() {
-        return _daoLista.buscar();
+    Future<List<Lista>> buscar({idUsuario}) {
+        return _daoLista.buscar(idUsuario: idUsuario);
     }
 
     

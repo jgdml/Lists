@@ -12,8 +12,15 @@ class DaoListaFire implements DaoListaInterface {
 
 
     @override
-    Future<List<Lista>> buscar() async {
+    Future<List<Lista>> buscar({idUsuario}) async {
         var res = await listaCollection.get();
+
+        // if (idUsuario != null){
+        //     res = await listaCollection.where('idUsuario', isEqualTo: idUsuario).get();
+        // }
+        // else {
+        //     res = await listaCollection.where('isPrivate', isEqualTo: false).get();
+        // }
 
         var listas = res.docs.map((lista) {
             return _convertToLista(lista);
