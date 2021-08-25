@@ -6,10 +6,12 @@ class LoginModalController{
 
     bool _emailValido = false;
     bool _senhaValida = false;
+    bool _senhaRepeatValida = false;
     bool _nomeValido = false;
 
     String email = "";
     String senha = "";
+    String senhaRepeat = "";
     String nome = "";
 
     var _svc = UsuarioService();
@@ -25,12 +27,23 @@ class LoginModalController{
         }
     }
 
+    Future<String?> cadastrar() async {
+        try{
+            await _svc.cadastrar(nome, email, senha);
+            return null;
+        }
+        catch (err){
+            return err.toString();
+        }
+        
+    }
+
     irParaMinhasListas(BuildContext context){
         Navigator.of(context).pushReplacementNamed(Constants.NAV_MY_LISTS);
     }
 
     bool get isValidoLogin => _emailValido && _senhaValida;
-    bool get isValidoCadastro => _emailValido && _senhaValida && _nomeValido;
+    bool get isValidoCadastro => _emailValido && _senhaValida && _senhaRepeatValida && _nomeValido;
 
     String? validarEmail(String? email){
         try{
@@ -53,6 +66,17 @@ class LoginModalController{
         catch (err){
             _senhaValida = false;
             return err.toString();
+        }
+    }
+
+    String? validarSenhaRepeat(String? senhaRepeat){
+        if (this.senha == senhaRepeat){
+            _senhaRepeatValida = true;
+            return null;
+        }
+        else {
+            _senhaRepeatValida = false;
+            return "As senhas são diferentes";
         }
     }
 

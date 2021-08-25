@@ -14,6 +14,7 @@ class LoginModal extends StatefulWidget {
 
 class _LoginModalState extends State<LoginModal> {
     final _formState = GlobalKey<FormState>();
+    final _formStateCadastro = GlobalKey<FormState>();
 
     final _controller = LoginModalController();
 
@@ -63,6 +64,19 @@ class _LoginModalState extends State<LoginModal> {
             ),
         );
     }
+    
+    Widget passRepeatField(){
+        return TextFormField(
+            onSaved: (val) => _controller.senhaRepeat = val ?? "",
+            validator: _controller.validarSenhaRepeat,
+            style: TextStyle(fontSize: 18),
+            obscureText: true,
+            decoration: InputDecoration(
+                labelText: "Repita a senha",
+                border: OutlineInputBorder(),
+            ),
+        );
+    }
 
     Widget loginButton(BuildContext context) {
         return CustomButton(
@@ -98,7 +112,25 @@ class _LoginModalState extends State<LoginModal> {
 
     Widget cadastroButton() {
         return CustomButton(
-            onPressed: () => null,
+            onPressed: () async {
+                EasyLoading.show();
+
+                _formStateCadastro.currentState!.save();
+                _formStateCadastro.currentState!.validate();
+
+                if (_controller.isValidoCadastro) {
+                    var res = await _controller.cadastrar();
+
+                    if (res == null){
+                        _toggleisLogin();
+                    }
+                    else{
+                        showErr(context, res);
+                    }
+                }
+
+                EasyLoading.dismiss();
+            },
             icon: Icon(Icons.person_add),
             label: "Cadastrar-se",
         );
@@ -117,6 +149,7 @@ class _LoginModalState extends State<LoginModal> {
                 nameField(),
                 emailField(),
                 passField(),
+                passRepeatField(),
                 cadastroButton(),
             ];
         }
@@ -146,14 +179,16 @@ class _LoginModalState extends State<LoginModal> {
                                 onPressed: () => _toggleisLogin(),
                                 icon: Icon(Icons.arrow_back),
                             ),
+                            Spacer(),
                             Text("Cadastrar uma nova conta"),
+                            Spacer(flex: 5),
                         ],
                     ),
                 content: Container(
                     width: 500,
-                    height: 300,
+                    height: _isLogin ?  300 : 500,
                     child: Form(
-                        key: _formState,
+                        key: _isLogin ? _formState : _formStateCadastro,
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: loginOuCadastro(context),

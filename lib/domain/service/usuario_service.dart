@@ -8,7 +8,13 @@ class UsuarioService {
     final DaoUsuarioFire _daoUsuario = DaoUsuarioFire();
 
     cadastrar(String nome, String email, String senha) async {
-        await _daoUsuario.cadastrar(nome, email, senha);
+        try{
+            await _daoUsuario.cadastrar(nome, email, senha);
+        }
+        catch (err){
+            identificarErro(err, "cadastro");
+        }
+        
     }
 
     Usuario? get usuario => _daoUsuario.getUsuario();
@@ -18,19 +24,33 @@ class UsuarioService {
             await _daoUsuario.login(email, senha);
         }
         catch (err){
-            identificarErro(err);
+            identificarErro(err, "login");
         }
     }
 
-    identificarErro(var err){
+    identificarErro(var err, String operacao){
         var errStr = err.toString();
-        print(errStr);
-        if (errStr.contains("[firebase_auth/wrong-password]") || errStr.contains("[firebase_auth/user-not-found]")){
-            throw new AuthException("O email ou senha estão incorretos");
+
+        if (operacao == "login"){
+            if (errStr.contains("[firebase_auth/wrong-password]") || errStr.contains("[firebase_auth/user-not-found]")){
+                throw new AuthException("O email ou senha estão incorretos");
+            }
+            else {
+               throw new AuthException("Ocorreu um erro ao realizar o login");
+            }
+
         }
-        else {
-            throw new AuthException("Ocorreu um erro ao realizar o login");
+
+        else if (operacao == "cadastro"){
+            if (errStr.contains("[firebase_auth/email-already-in-use]")){
+                throw new AuthException("Este email já esta cadastrado");
+            }
+            else {
+               throw new AuthException("Ocorreu um erro ao realizar o cadastro");
+            }
         }
+
+
         
     }
 
