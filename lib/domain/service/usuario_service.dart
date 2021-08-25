@@ -1,4 +1,6 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:just_lists/db/firestore/dao_usuario_fire.dart';
+import 'package:just_lists/domain/exception/auth_exception.dart';
 import 'package:just_lists/domain/exception/domain_exception.dart';
 import 'package:just_lists/domain/model/usuario.dart';
 
@@ -12,7 +14,24 @@ class UsuarioService {
     Usuario? get usuario => _daoUsuario.getUsuario();
 
     login(String email, String senha) async {
-        await _daoUsuario.login(email, senha);
+        try{
+            await _daoUsuario.login(email, senha);
+        }
+        catch (err){
+            identificarErro(err);
+        }
+    }
+
+    identificarErro(var err){
+        var errStr = err.toString();
+        print(errStr);
+        if (errStr.contains("[firebase_auth/wrong-password]") || errStr.contains("[firebase_auth/user-not-found]")){
+            throw new AuthException("O email ou senha estão incorretos");
+        }
+        else {
+            throw new AuthException("Ocorreu um erro ao realizar o login");
+        }
+        
     }
 
     logout() async {
@@ -23,7 +42,9 @@ class UsuarioService {
         if (email == null || email == ""){
             throw new DomainException("O email não pode ser vazio");
         }
-        // adicionar validacao de email 
+        else if (EmailValidator.validate(email) == false){
+            throw new DomainException("O email não é válido");
+        }
     }
 
     validarSenha(String? senha){

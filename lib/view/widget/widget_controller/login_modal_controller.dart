@@ -15,8 +15,14 @@ class LoginModalController{
     var _svc = UsuarioService();
 
 
-    Future login() async {
-        await _svc.login(email, senha);        
+    Future<String?> login() async {
+        try{
+            await _svc.login(email, senha);
+            return null;
+        }
+        catch (err){
+            return err.toString();
+        }
     }
 
     irParaMinhasListas(BuildContext context){
