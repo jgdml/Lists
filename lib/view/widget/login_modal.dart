@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:just_lists/view/widget/custom_button.dart';
@@ -43,17 +45,17 @@ class _LoginModalState extends State<LoginModal> {
 
     Widget loginButton(BuildContext context) {
         return CustomButton(
-            onPressed: () {
+            onPressed: () async {
                 EasyLoading.show();
                 _formState.currentState!.validate();
                 _formState.currentState!.save();
 
                 if (_controller.isValidoLogin) {
-                    _controller.login().then((v) {
-                        EasyLoading.dismiss();
-                        _controller.irParaMinhasListas(context);
-                    });
+                    await _controller.login();
+                    _controller.irParaMinhasListas(context);
                 }
+                EasyLoading.dismiss();
+                
             },
             icon: Icon(Icons.next_plan),
             label: "Fazer Login",
@@ -70,7 +72,8 @@ class _LoginModalState extends State<LoginModal> {
 
     @override
     Widget build(BuildContext context) {
-        return Container(
+        return BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
             child: AlertDialog(
                 title: Text("Login"),
                 content: Container(

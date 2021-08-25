@@ -1,5 +1,6 @@
 import 'package:just_lists/domain/model/lista.dart';
 import 'package:just_lists/domain/model/registro.dart';
+import 'package:just_lists/domain/model/usuario.dart';
 import 'package:just_lists/domain/service/lista_service.dart';
 import 'package:just_lists/domain/service/usuario_service.dart';
 
@@ -16,8 +17,15 @@ class CreateListController{
 
 
     CreateListController(){
-        lista = Lista(registros: <Registro>[], usuario: _userSvc.usuario!);
+        if (this.isLogado){
+            lista = Lista(registros: <Registro>[], usuario: _userSvc.usuario!);
+        }
+        else{
+            lista = Lista(registros: <Registro>[], usuario: Usuario(id: "", nome: ""));
+        }
     }
+
+    bool get isLogado => _userSvc.usuario != null;
 
     bool get isValido => _tituloValido && _registroValido;
 

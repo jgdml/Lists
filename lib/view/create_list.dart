@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:just_lists/constants.dart';
 import 'package:just_lists/controller/create_list_controller.dart';
 import 'package:just_lists/domain/model/registro.dart';
 import 'package:just_lists/view/widget/custom_button.dart';
 import 'package:just_lists/view/widget/decorated_container.dart';
+import 'package:just_lists/view/widget/login_modal.dart';
 import 'package:just_lists/view/widget/page_title.dart';
 
 class CreateList extends StatefulWidget {
@@ -14,6 +17,22 @@ class CreateList extends StatefulWidget {
 }
 
 class _CreateListState extends State<CreateList> {
+
+    @override
+    void initState() {
+        super.initState();
+
+        Timer.run(() {
+            if(_controller.isLogado == false){
+                showDialog(
+                    barrierDismissible: false,
+                    context: context, 
+                    builder: (context) => LoginModal()
+                );
+            }
+        });
+    }
+
     final _formState = GlobalKey<FormState>();
 
     var _controller = CreateListController();

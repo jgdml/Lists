@@ -20,12 +20,14 @@ class ListsController{
 
     String get paginaTitulo => isHome ? "Início" : "Minhas Listas";
 
+    bool get isLogado => _userSvc.usuario != null;
+
     atualizarLista() async {
         if (isHome){
             listas = _svc.buscar();
         }
         else{
-            listas = _svc.buscar(idUsuario: _userSvc.usuario!.id);
+            listas = _svc.buscar(idUsuario: isLogado ? _userSvc.usuario!.id : "");
         }
     }
 

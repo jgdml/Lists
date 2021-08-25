@@ -22,7 +22,6 @@ class Sidebar extends StatelessWidget {
                 texto: "Login", 
                 icone: Icon(Icons.next_plan),
                 func: () => showDialog(
-                    barrierDismissible: false,
                     context: context, 
                     builder: (context) => LoginModal()
                 ),
