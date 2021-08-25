@@ -16,7 +16,7 @@ class SidebarController{
     }
     
     goToConfig(BuildContext context){
-        Navigator.of(context).pushReplacementNamed(Constants.NAV_CONFIG);
+        Navigator.of(context).pushReplacementNamed(Constants.NAV_PERFIL);
     }
 
 }

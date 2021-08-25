@@ -3,7 +3,7 @@ class Constants{
     static const NAV_MY_LISTS = '/myLists';
     static const NAV_CREATE_LIST = '/createList';
     static const NAV_LIST_VIEWER = '/listViewer';
-    static const NAV_CONFIG = '/config';
+    static const NAV_PERFIL = '/perfil';
 
     static const TYPE_STR = 0;
     static const TYPE_INT = 1;
