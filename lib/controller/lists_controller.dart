@@ -31,8 +31,12 @@ class ListsController{
         }
     }
 
-    irParaLista(BuildContext context, int index){
-        Navigator.of(context).pushReplacementNamed(Constants.NAV_LIST_VIEWER);
+    irParaLista(BuildContext context, int index) async {
+        var listasConv = await listas;
+
+        var lista = listasConv![index];
+
+        Navigator.of(context).pushReplacementNamed(Constants.NAV_LIST_VIEWER, arguments: lista);
     }
 
 
