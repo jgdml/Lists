@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:just_lists/constants.dart';
 import 'package:just_lists/controller/create_list_controller.dart';
 import 'package:just_lists/domain/model/registro.dart';
@@ -170,7 +171,8 @@ class _CreateListState extends State<CreateList> {
 
     Widget saveButton() {
         return CustomButton(
-            onPressed: () {
+            onPressed: () async {
+                EasyLoading.show();
                 _formState.currentState!.validate();
                 _formState.currentState!.save();
 
@@ -180,7 +182,9 @@ class _CreateListState extends State<CreateList> {
                 }
 
                 if (_controller.isValido) {
-                    _controller.salvar();
+                    await _controller.salvar();
+                    EasyLoading.dismiss();
+                    Navigator.of(context).pushReplacementNamed(Constants.NAV_MY_LISTS);
                 }
             },
             icon: Icon(Icons.save),

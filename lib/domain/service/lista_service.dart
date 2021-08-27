@@ -17,13 +17,13 @@ class ListaService {
     }
 
     
-    excluir(String id) {
-        _daoLista.excluir(id);
+    excluir(String id) async {
+        await _daoLista.excluir(id);
     }
 
     
-    salvar(Lista lista) {
-        _daoLista.salvar(lista);
+    salvar(Lista lista) async {
+        await _daoLista.salvar(lista);
     }
 
 

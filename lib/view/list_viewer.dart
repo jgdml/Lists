@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:just_lists/controller/list_viewer_controller.dart';
 import 'package:just_lists/domain/model/lista.dart';
@@ -72,6 +71,94 @@ class ListViewer extends StatelessWidget {
         return linhas;
     }
 
+    Widget _privacidadeIndicator(bool isPrivate) {
+        return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+                Text(
+                    "Privacidade: ",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                    ),
+                ),
+                isPrivate ? Icon(Icons.lock_outline) : Icon(Icons.lock_open),
+                Text(
+                    isPrivate ? "Privada" : "Pública",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                    ),
+                ),
+            ],
+        );
+    }
+
+    _showListInfo(BuildContext context, Lista lista, _controller) {
+        showDialog(
+            context: context,
+            builder: (context) => Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                    AlertDialog(
+                        title: Text(
+                            "Detalhes",
+                            style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                            ),
+                        ),
+                        content: Container(
+                            height: 150,
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                    Text(
+                                        "Titulo: " + lista.titulo!,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                        ),
+                                    ),
+                                    Text(
+                                        "Criado por: " + lista.usuario.nome!,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                        ),
+                                    ),
+                                    _privacidadeIndicator(lista.isPrivate!),
+                                    CustomButton(
+                                        onPressed: () => showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                                title: Text("Excluir Lista"),
+                                                content:
+                                                        Text("Tem certeza que deseja excluir essa lista?"),
+                                                actions: [
+                                                    TextButton(
+                                                        onPressed: () => Navigator.of(context).pop(),
+                                                        child: Text("NÃO"),
+                                                    ),
+                                                    TextButton(
+                                                        onPressed: () => _controller.excluirLista(lista.id),
+                                                        child: Text("SIM"),
+                                                    ),
+                                                ],
+                                            ),
+                                        ),
+                                        icon: Icon(Icons.delete),
+                                        label: "Excluir lista",
+                                    )
+                                ],
+                            ),
+                        ),
+                    ),
+                ],
+            ),
+        );
+    }
+
     @override
     Widget build(BuildContext context) {
         var _controller = ListViewerController(context);
@@ -92,7 +179,8 @@ class ListViewer extends StatelessWidget {
                                         children: [
                                             PageTitle(texto: lista.titulo ?? ""),
                                             IconButton(
-                                                onPressed: () => null,
+                                                onPressed: () =>
+                                                        _showListInfo(context, lista, _controller),
                                                 icon: Icon(Icons.info_outline),
                                             ),
                                         ],

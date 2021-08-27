@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:just_lists/constants.dart';
 import 'package:just_lists/domain/model/lista.dart';
 import 'package:just_lists/domain/service/lista_service.dart';
 import 'package:mobx/mobx.dart';
@@ -11,12 +12,14 @@ abstract class _ListViewerController with Store{
 
     var _svc = ListaService();
 
+    var _context;
 
     @observable
     Future<Lista>? lista;
 
     _ListViewerController(BuildContext context){
         lista = _svc.buscarUmaLista((ModalRoute.of(context)!.settings.arguments as Lista).id!);
+        _context = context;
     }
 
     atualizarLista()async{
@@ -37,6 +40,12 @@ abstract class _ListViewerController with Store{
     editReg(int index) async {
         
         // _svc.salvar((await lista!));
+    }
+
+    excluirLista(String id) async {
+        await _svc.excluir(id);
+
+        Navigator.of(_context).pushReplacementNamed(Constants.NAV_MY_LISTS);
     }
 
 
