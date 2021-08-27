@@ -30,6 +30,12 @@ class DaoListaFire implements DaoListaInterface {
         return listas.toList();
     }
 
+    Future<Lista> buscarPorId(String id) async {
+        var res = await listaCollection.doc(id).get();
+
+        return _convertToLista(res);
+    }
+
     Lista _convertToLista(var lista) {
         Lista convLista;
 

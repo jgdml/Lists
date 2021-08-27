@@ -12,6 +12,10 @@ class ListaService {
         return _daoLista.buscar(idUsuario: idUsuario);
     }
 
+    Future<Lista> buscarUmaLista(String idLista){
+        return _daoLista.buscarPorId(idLista);
+    }
+
     
     excluir(String id) {
         _daoLista.excluir(id);
