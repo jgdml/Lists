@@ -230,7 +230,9 @@ class _CreateListState extends State<CreateList> {
                                         Spacer(
                                             flex: 2,
                                         ),
+                                        _controller.isLogado ? 
                                         saveButton()
+                                        : Container()
                                     ],
                                 ),
                             ),
