@@ -36,7 +36,7 @@ class ListsController{
 
         var lista = listasConv![index];
 
-        Navigator.of(context).pushReplacementNamed(Constants.NAV_LIST_VIEWER, arguments: lista);
+        Navigator.of(context).pushReplacementNamed(Constants.NAV_LIST_VIEWER, arguments: lista.id);
     }
 
 

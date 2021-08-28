@@ -21,7 +21,7 @@ abstract class _ListViewerController with Store{
     Future<Lista>? lista;
 
     _ListViewerController(BuildContext context){
-        lista = _svc.buscarUmaLista((ModalRoute.of(context)!.settings.arguments as Lista).id!);
+        lista = _svc.buscarUmaLista(ModalRoute.of(context)!.settings.arguments as String);
         _context = context;
     }
 
