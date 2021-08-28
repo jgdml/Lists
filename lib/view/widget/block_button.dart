@@ -24,7 +24,7 @@ class BlockButton extends StatelessWidget {
                 child: InkWell(
                     onTap: func,
                     child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 70, vertical: 40),
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                         child: FittedBox(
                             child: Column(children: [
                                 Icon(icone, size: 50, color: Theme.of(context).primaryColor),

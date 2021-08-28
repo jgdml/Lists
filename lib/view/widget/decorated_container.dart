@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class DecoratedContainer extends StatelessWidget {
-    const DecoratedContainer({ Key? key, required this.child }) : super(key: key);
+    const DecoratedContainer({ Key? key, required this.child, this.height, this.width }) : super(key: key);
 
+    final double? height;
+    final double? width;
     final Widget child;
 
     @override
@@ -11,8 +13,8 @@ class DecoratedContainer extends StatelessWidget {
         var sizeH = MediaQuery.of(context).size.height * 0.82;
 
         return Container(
-            width: sizeW,
-            height: sizeH,
+            width: width ?? sizeW,
+            height: height ?? sizeH,
             
             decoration: BoxDecoration(
                 color: Colors.white,
