@@ -26,7 +26,6 @@ abstract class _ListViewerController with Store{
         lista = _svc.buscarUmaLista((await lista!).id!);
     }
 
-    @action
     deleteReg(int index) async {
         for (var reg in (await lista!).registros){
             reg!.valores!.removeAt(index);
@@ -34,12 +33,6 @@ abstract class _ListViewerController with Store{
 
         await _svc.salvar((await lista!));
         await atualizarLista();
-    }
-
-    @action
-    editReg(int index) async {
-        
-        // _svc.salvar((await lista!));
     }
 
     excluirLista(String id) async {

@@ -24,20 +24,6 @@ mixin _$ListViewerController on _ListViewerController, Store {
     });
   }
 
-  final _$deleteRegAsyncAction = AsyncAction('_ListViewerController.deleteReg');
-
-  @override
-  Future deleteReg(int index) {
-    return _$deleteRegAsyncAction.run(() => super.deleteReg(index));
-  }
-
-  final _$editRegAsyncAction = AsyncAction('_ListViewerController.editReg');
-
-  @override
-  Future editReg(int index) {
-    return _$editRegAsyncAction.run(() => super.editReg(index));
-  }
-
   @override
   String toString() {
     return '''

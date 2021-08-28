@@ -36,15 +36,12 @@ class CreateRegistroModalController{
 
 
     bool _checkValido(){
-        _validos.forEach(print);
         for (var valido in _validos){
             
             if (valido == false){
-                
                 return false;
             }
         }
-        print("yep");
         return true;
     }
 
