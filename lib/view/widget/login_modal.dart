@@ -18,13 +18,6 @@ class _LoginModalState extends State<LoginModal> {
 
     final _controller = LoginModalController();
 
-    bool _isLogin = true;
-
-    _toggleisLogin() {
-        setState(() {
-            _isLogin = !_isLogin;
-        });
-    }
 
     Widget nameField() {
         return TextFormField(
@@ -104,7 +97,7 @@ class _LoginModalState extends State<LoginModal> {
 
     Widget gotoCadastro() {
         return CustomButton(
-            onPressed: () => _toggleisLogin(),
+            onPressed: () => _controller.toggleIsLogin(),
             icon: Icon(Icons.person_add),
             label: "Fazer cadastro",
         );
@@ -122,7 +115,7 @@ class _LoginModalState extends State<LoginModal> {
                     var res = await _controller.cadastrar();
 
                     if (res == null){
-                        _toggleisLogin();
+                        _controller.toggleIsLogin();
                     }
                     else{
                         showErr(context, res);
@@ -137,7 +130,7 @@ class _LoginModalState extends State<LoginModal> {
     }
 
     List<Widget> loginOuCadastro(BuildContext context) {
-        if (_isLogin) {
+        if (_controller.isLogin) {
             return [
                 emailField(),
                 passField(),
@@ -171,12 +164,12 @@ class _LoginModalState extends State<LoginModal> {
         return BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
             child: AlertDialog(
-                title: _isLogin
+                title: _controller.isLogin
                     ? Text("Entrar na conta")
                     : Row(
                         children: [
                             IconButton(
-                                onPressed: () => _toggleisLogin(),
+                                onPressed: () => _controller.toggleIsLogin(),
                                 icon: Icon(Icons.arrow_back),
                             ),
                             Spacer(),
@@ -186,9 +179,9 @@ class _LoginModalState extends State<LoginModal> {
                     ),
                 content: Container(
                     width: 500,
-                    height: _isLogin ?  300 : 500,
+                    height: _controller.isLogin ?  300 : 500,
                     child: Form(
-                        key: _isLogin ? _formState : _formStateCadastro,
+                        key: _controller.isLogin ? _formState : _formStateCadastro,
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: loginOuCadastro(context),

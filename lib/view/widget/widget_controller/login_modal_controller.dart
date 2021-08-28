@@ -1,8 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:just_lists/constants.dart';
 import 'package:just_lists/domain/service/usuario_service.dart';
+import 'package:mobx/mobx.dart';
 
-class LoginModalController{
+part 'login_modal_controller.g.dart';
+
+class LoginModalController = _LoginModalController with _$LoginModalController;
+
+
+abstract class _LoginModalController with Store{
+
+    @observable
+    bool isLogin = true;
 
     bool _emailValido = false;
     bool _senhaValida = false;
@@ -15,6 +24,12 @@ class LoginModalController{
     String nome = "";
 
     var _svc = UsuarioService();
+
+
+    @action
+    toggleIsLogin(){
+        isLogin = !isLogin;
+    }
 
 
     Future<String?> login() async {

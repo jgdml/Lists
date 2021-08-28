@@ -2,41 +2,20 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:just_lists/constants.dart';
 import 'package:just_lists/controller/create_list_controller.dart';
-import 'package:just_lists/domain/model/registro.dart';
 import 'package:just_lists/view/widget/custom_button.dart';
 import 'package:just_lists/view/widget/decorated_container.dart';
 import 'package:just_lists/view/widget/login_modal.dart';
 import 'package:just_lists/view/widget/page_title.dart';
 
-class CreateList extends StatefulWidget {
-    const CreateList({Key? key}) : super(key: key);
 
-    @override
-    _CreateListState createState() => _CreateListState();
-}
-
-class _CreateListState extends State<CreateList> {
-
-    @override
-    void initState() {
-        super.initState();
-
-        Timer.run(() {
-            if(_controller.isLogado == false){
-                showDialog(
-                    barrierDismissible: false,
-                    context: context, 
-                    builder: (context) => LoginModal()
-                );
-            }
-        });
-    }
+class CreateList extends StatelessWidget {
 
     final _formState = GlobalKey<FormState>();
 
-    var _controller = CreateListController();
+    final _controller = CreateListController();
 
     Widget titleField() {
         return TextFormField(
@@ -60,11 +39,7 @@ class _CreateListState extends State<CreateList> {
                 children: [
                     Text("Privacidade", style: TextStyle(fontSize: 18)),
                     Switch(
-                        onChanged: (val) {
-                            setState(() {
-                                _controller.lista!.isPrivate = val;
-                            });
-                        },
+                        onChanged: _controller.switchPrivacy,
                         value: _controller.lista!.isPrivate!,
                     ),
                     _controller.lista!.isPrivate!
@@ -80,7 +55,6 @@ class _CreateListState extends State<CreateList> {
     }
 
     Widget campoField(int regPos) {
-
         return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -91,7 +65,6 @@ class _CreateListState extends State<CreateList> {
                     Container(
                         width: 300,
                         child: TextFormField(
-                            validator: _controller.validarRegistroNome,
                             onSaved: (val) =>
                                     _controller.lista!.registros[regPos]!.nome = val,
                             style: TextStyle(fontSize: 18),
@@ -104,18 +77,16 @@ class _CreateListState extends State<CreateList> {
                     ),
                     Container(
                         width: 300,
-                      child: DropdownButtonFormField<String>(
-                          items: Constants.TYPE_NAMES.map((var val) {
-                              return DropdownMenuItem<String>(value: val, child: Text(val));
-                          }).toList(),
-                          validator: _controller.validarRegistroTipo,
-                          value: _controller.lista!.registros[regPos]!.tipo,
-                          onChanged: (typeVal) => setState(() {
-                              _controller.lista!.registros[regPos]!.tipo = typeVal.toString();
-                          }),
-                          hint: Text('Selecione o tipo do campo'),
-                          style: TextStyle(fontSize: 18),
-                      ),
+                        child: DropdownButtonFormField<String>(
+                            items: Constants.TYPE_NAMES.map((var val) {
+                                return DropdownMenuItem<String>(value: val, child: Text(val));
+                            }).toList(),
+                            value: _controller.lista!.registros[regPos]!.tipo,
+                            onChanged: (val) =>
+                                    _controller.changeRegType(regPos, val.toString()),
+                            hint: Text('Selecione o tipo do campo'),
+                            style: TextStyle(fontSize: 18),
+                        ),
                     ),
                 ],
             ),
@@ -124,17 +95,13 @@ class _CreateListState extends State<CreateList> {
 
     Widget addCampo() {
         return CustomButton(
-            onPressed: () {
-                setState(() {
-                    _controller.lista!.registros.add(Registro());
-                });
-            },
+            onPressed: () => _controller.addReg(),
             icon: Icon(Icons.add),
             label: "Adicionar um campo",
         );
     }
 
-    Widget campos() {
+    Widget campos(context) {
         return FittedBox(
             child: Container(
                 width: 800,
@@ -158,18 +125,16 @@ class _CreateListState extends State<CreateList> {
         );
     }
 
-    showError(String msg){
+    showError(String msg, context) {
         return showDialog(
-            context: context, 
-            builder: (context) => AlertDialog(
-                title: Text("Erro"),
-                content: Text(msg),
-
-            )
-        );
+                context: context,
+                builder: (context) => AlertDialog(
+                            title: Text("Erro"),
+                            content: Text(msg),
+                        ));
     }
 
-    Widget saveButton() {
+    Widget saveButton(context) {
         return CustomButton(
             onPressed: () async {
                 EasyLoading.show();
@@ -177,15 +142,15 @@ class _CreateListState extends State<CreateList> {
                 _formState.currentState!.save();
 
                 var resErr = _controller.validarRegistros();
-                if (resErr != null){
-                    showError(resErr);
+                if (resErr != null) {
+                    showError(resErr, context);
                 }
 
                 if (_controller.isValido) {
                     await _controller.salvar();
-                    EasyLoading.dismiss();
                     Navigator.of(context).pushReplacementNamed(Constants.NAV_MY_LISTS);
                 }
+                EasyLoading.dismiss();
             },
             icon: Icon(Icons.save),
             label: "Salvar",
@@ -194,12 +159,7 @@ class _CreateListState extends State<CreateList> {
 
     Widget removeButton() {
         return CustomButton(
-            onPressed: () => setState(() {
-                try{
-                    _controller.lista!.registros.removeLast();
-                }
-                catch (RangeError){}
-            }),
+            onPressed: () => _controller.removeLastReg(),
             icon: Icon(Icons.delete),
             label: "Remover Campo",
         );
@@ -214,32 +174,32 @@ class _CreateListState extends State<CreateList> {
                         Spacer(),
                         PageTitle(texto: "Criar Lista"),
                         Spacer(flex: 5),
-                        DecoratedContainer(
-                            child: Form(
-                                key: _formState,
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    children: [
-                                        titleField(),
-                                        campos(),
-                                        Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                                addCampo(),
-                                                removeButton(),
-                                            ],
-                                        ),
-                                        Spacer(),
-                                        privacyField(),
-                                        Spacer(
-                                            flex: 2,
-                                        ),
-                                        _controller.isLogado ? 
-                                        saveButton()
-                                        : Container()
-                                    ],
-                                ),
-                            ),
+                        Observer(
+                            builder: (_) => DecoratedContainer(
+                              child: Form(
+                                  key: _formState,
+                                  child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                          titleField(),
+                                          campos(context),
+                                          Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                  addCampo(),
+                                                  removeButton(),
+                                              ],
+                                          ),
+                                          Spacer(),
+                                          privacyField(),
+                                          Spacer(
+                                              flex: 2,
+                                          ),
+                                          _controller.isLogado ? saveButton(context) : Container()
+                                      ],
+                                  ),
+                              ),
+                          ),
                         ),
                         Spacer(flex: 8),
                     ],
@@ -248,3 +208,21 @@ class _CreateListState extends State<CreateList> {
         );
     }
 }
+
+
+// class _CreateListState extends State<CreateList> {
+//     @override
+//     void initState() {
+//         super.initState();
+
+//         Timer.run(() {
+//             if (_controller.isLogado == false) {
+//                 showDialog(
+//                         barrierDismissible: false,
+//                         context: context,
+//                         builder: (context) => LoginModal());
+//             }
+//         });
+//     }
+
+// }

@@ -3,9 +3,16 @@ import 'package:just_lists/domain/model/registro.dart';
 import 'package:just_lists/domain/model/usuario.dart';
 import 'package:just_lists/domain/service/lista_service.dart';
 import 'package:just_lists/domain/service/usuario_service.dart';
+import 'package:mobx/mobx.dart';
 
-class CreateListController{
+part 'create_list_controller.g.dart';
 
+class CreateListController = _CreateListController with _$CreateListController;
+
+
+abstract class _CreateListController with Store{
+
+    @observable
     Lista? lista;
 
     var _svc = ListaService();
@@ -13,10 +20,10 @@ class CreateListController{
     var _userSvc = UsuarioService();
 
     bool _tituloValido = false;
-    bool _registroValido = false;
+    var _registroValido = false;
 
 
-    CreateListController(){
+    _CreateListController(){
         if (this.isLogado){
             lista = Lista(registros: <Registro>[], usuario: _userSvc.usuario!);
         }
@@ -28,6 +35,35 @@ class CreateListController{
     bool get isLogado => _userSvc.usuario != null;
 
     bool get isValido => _tituloValido && _registroValido;
+
+    @action
+    switchPrivacy(bool val){
+        lista!.isPrivate = val;
+        lista = lista;
+    }
+
+    @action
+    changeRegType(int regPos, String val){
+        lista!.registros[regPos]!.tipo = val;
+        lista = lista;
+    }
+
+    @action
+    addReg(){
+        lista!.registros.add(Registro());
+        lista = lista;
+    }
+
+    @action
+    removeLastReg(){
+        try{
+            lista!.registros.removeLast();
+            lista = lista;
+        }
+        catch (RangeError){}
+        
+    }
+
 
     salvar() async {
         await _svc.salvar(this.lista!);
@@ -48,6 +84,11 @@ class CreateListController{
     String? validarRegistros(){
         try{
             _svc.validarRegistros(lista!.registros);
+            
+            for (var reg in (lista!.registros)){
+                _svc.validarRegistroNome(reg!.nome);
+                _svc.validarRegistroTipo(reg.tipo);
+            }
             _registroValido = true;
             return null;
         }
@@ -56,31 +97,5 @@ class CreateListController{
             return err.toString();
         }
     }
-
-    String? validarRegistroNome(String? regNome){
-        try{
-            _svc.validarRegistroNome(regNome);
-            _registroValido = true;
-            return null;
-        }
-        catch(err) {
-            _registroValido = false;
-            return err.toString();
-        }
-    }
-
-    String? validarRegistroTipo(String? regTipo){
-        try{
-            _svc.validarRegistroTipo(regTipo);
-            _registroValido = true;
-            return null;
-        }
-        catch(err) {
-            _registroValido = false;
-            return err.toString();
-        }
-    }
-
-
 
 }
