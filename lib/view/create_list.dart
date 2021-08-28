@@ -10,8 +10,28 @@ import 'package:just_lists/view/widget/decorated_container.dart';
 import 'package:just_lists/view/widget/login_modal.dart';
 import 'package:just_lists/view/widget/page_title.dart';
 
+class CreateList extends StatefulWidget {
+    const CreateList({Key? key}) : super(key: key);
 
-class CreateList extends StatelessWidget {
+    @override
+    _CreateListState createState() => _CreateListState();
+}
+
+class _CreateListState extends State<CreateList> {
+    @override
+    void initState() {
+        super.initState();
+
+        Timer.run(() {
+            if (_controller.isLogado == false) {
+                showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) => LoginModal(),
+                );
+            }
+        });
+    }
 
     final _formState = GlobalKey<FormState>();
 
@@ -176,30 +196,30 @@ class CreateList extends StatelessWidget {
                         Spacer(flex: 5),
                         Observer(
                             builder: (_) => DecoratedContainer(
-                              child: Form(
-                                  key: _formState,
-                                  child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [
-                                          titleField(),
-                                          campos(context),
-                                          Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                  addCampo(),
-                                                  removeButton(),
-                                              ],
-                                          ),
-                                          Spacer(),
-                                          privacyField(),
-                                          Spacer(
-                                              flex: 2,
-                                          ),
-                                          _controller.isLogado ? saveButton(context) : Container()
-                                      ],
-                                  ),
-                              ),
-                          ),
+                                child: Form(
+                                    key: _formState,
+                                    child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                            titleField(),
+                                            campos(context),
+                                            Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                children: [
+                                                    addCampo(),
+                                                    removeButton(),
+                                                ],
+                                            ),
+                                            Spacer(),
+                                            privacyField(),
+                                            Spacer(
+                                                flex: 2,
+                                            ),
+                                            _controller.isLogado ? saveButton(context) : Container()
+                                        ],
+                                    ),
+                                ),
+                            ),
                         ),
                         Spacer(flex: 8),
                     ],
@@ -208,21 +228,3 @@ class CreateList extends StatelessWidget {
         );
     }
 }
-
-
-// class _CreateListState extends State<CreateList> {
-//     @override
-//     void initState() {
-//         super.initState();
-
-//         Timer.run(() {
-//             if (_controller.isLogado == false) {
-//                 showDialog(
-//                         barrierDismissible: false,
-//                         context: context,
-//                         builder: (context) => LoginModal());
-//             }
-//         });
-//     }
-
-// }
