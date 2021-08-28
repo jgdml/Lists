@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:just_lists/controller/list_viewer_controller.dart';
 import 'package:just_lists/domain/model/lista.dart';
 import 'package:just_lists/domain/model/registro.dart';
+import 'package:just_lists/view/widget/create_registro_modal.dart';
 import 'package:just_lists/view/widget/custom_button.dart';
 import 'package:just_lists/view/widget/page_title.dart';
 
@@ -38,7 +39,8 @@ class ListViewer extends StatelessWidget {
     }
 
     List<DataRow> _registrosLista(
-            List<Registro?> regs, ListViewerController _controller) {
+            Lista lista, ListViewerController _controller, context) {
+        var regs = lista.registros;
         var linhas = <DataRow>[];
         if (regs[0]!.valores != null) {
             for (int i = 0; i < regs[0]!.valores!.length; i++) {
@@ -51,11 +53,40 @@ class ListViewer extends StatelessWidget {
                         Row(
                             children: [
                                 IconButton(
-                                    onPressed: () => _controller.editReg(i),
+                                    onPressed: () async {
+                                        await showDialog(
+                                            context: context,
+                                            builder: (context) =>
+                                                    CreateRegistroModal(lista, editMode: true),
+                                        );
+                                        _controller.atualizarLista();
+                                    },
                                     icon: Icon(Icons.edit),
                                 ),
                                 IconButton(
-                                    onPressed: () => _controller.deleteReg(i),
+                                    onPressed: () async {
+                                        await showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                                title: Text("Excluir Registro"),
+                                                content: Text("Deseja excluir esse registro?"),
+                                                actions: [
+                                                    TextButton(
+                                                        onPressed: () => Navigator.of(context).pop(),
+                                                        child: Text("NÃO"),
+                                                    ),
+                                                    TextButton(
+                                                        onPressed: () => {
+                                                            _controller.deleteReg(i),
+                                                            Navigator.of(context).pop(),
+                                                        },
+                                                        child: Text("SIM"),
+                                                    ),
+                                                ],
+                                            ),
+                                        );
+                                        _controller.atualizarLista();
+                                    },
                                     icon: Icon(Icons.delete),
                                 )
                             ],
@@ -187,7 +218,13 @@ class ListViewer extends StatelessWidget {
                                     ),
                                     Spacer(),
                                     CustomButton(
-                                        onPressed: () => null,
+                                        onPressed: () async {
+                                            await showDialog(
+                                                context: context,
+                                                builder: (context) => CreateRegistroModal(lista),
+                                            );
+                                            _controller.atualizarLista();
+                                        },
                                         icon: Icon(Icons.add),
                                         label: "Adicionar registro",
                                     ),
@@ -204,14 +241,16 @@ class ListViewer extends StatelessWidget {
                                             headingRowColor: MaterialStateProperty.all<Color>(
                                                     Theme.of(context).primaryColor.withAlpha(20)),
                                             columns: _camposLista(lista.registros),
-                                            rows: _registrosLista(lista.registros, _controller),
+                                            rows: _registrosLista(lista, _controller, context),
                                         ),
                                     ),
                                     Spacer(flex: 5),
                                 ],
                             );
                         }
-                        return Container();
+                        return Center(
+                            child: CircularProgressIndicator(),
+                        );
                     },
                 );
             }),
