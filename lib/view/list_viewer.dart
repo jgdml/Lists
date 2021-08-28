@@ -10,7 +10,7 @@ import 'package:just_lists/view/widget/page_title.dart';
 class ListViewer extends StatelessWidget {
     ListViewer({Key? key}) : super(key: key);
 
-    List<DataColumn> _camposLista(List<Registro?> regs) {
+    List<DataColumn> _camposLista(List<Registro?> regs, bool isAuthor) {
         var campos = regs.map((reg) {
             return DataColumn(
                 label: Text(
@@ -23,23 +23,73 @@ class ListViewer extends StatelessWidget {
             );
         }).toList();
 
-        campos.add(
-            DataColumn(
-                label: Text(
-                    "Ações",
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
+        if (isAuthor){
+            campos.add(
+                DataColumn(
+                    label: Text(
+                        "Ações",
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                        ),
                     ),
                 ),
-            ),
-        );
+            );
+        }
 
+        
         return campos;
     }
 
+
+    DataCell _deleteEditButtons(lista, context, _controller, index){
+        return DataCell(
+            Row(
+                children: [
+                    IconButton(
+                        onPressed: () async {
+                            await showDialog(
+                                context: context,
+                                builder: (context) =>
+                                        CreateRegistroModal(lista, editMode: true),
+                            );
+                            _controller.atualizarLista();
+                        },
+                        icon: Icon(Icons.edit),
+                    ),
+                    IconButton(
+                        onPressed: () async {
+                            await showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                    title: Text("Excluir Registro"),
+                                    content: Text("Deseja excluir esse registro?"),
+                                    actions: [
+                                        TextButton(
+                                            onPressed: () => Navigator.of(context).pop(),
+                                            child: Text("NÃO"),
+                                        ),
+                                        TextButton(
+                                            onPressed: () => {
+                                                _controller.deleteReg(index),
+                                                Navigator.of(context).pop(),
+                                            },
+                                            child: Text("SIM"),
+                                        ),
+                                    ],
+                                ),
+                            );
+                            _controller.atualizarLista();
+                        },
+                        icon: Icon(Icons.delete),
+                    )
+                ],
+            ),
+        );
+    }
+
     List<DataRow> _registrosLista(
-            Lista lista, ListViewerController _controller, context) {
+            Lista lista, ListViewerController _controller, context, bool isAuthor) {
         var regs = lista.registros;
         var linhas = <DataRow>[];
         if (regs[0]!.valores != null) {
@@ -48,51 +98,10 @@ class ListViewer extends StatelessWidget {
                 for (int y = 0; y < regs.length; y++) {
                     celulas.add(DataCell(Text(regs[y]!.valores![i])));
                 }
-                celulas.add(
-                    DataCell(
-                        Row(
-                            children: [
-                                IconButton(
-                                    onPressed: () async {
-                                        await showDialog(
-                                            context: context,
-                                            builder: (context) =>
-                                                    CreateRegistroModal(lista, editMode: true),
-                                        );
-                                        _controller.atualizarLista();
-                                    },
-                                    icon: Icon(Icons.edit),
-                                ),
-                                IconButton(
-                                    onPressed: () async {
-                                        await showDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                                title: Text("Excluir Registro"),
-                                                content: Text("Deseja excluir esse registro?"),
-                                                actions: [
-                                                    TextButton(
-                                                        onPressed: () => Navigator.of(context).pop(),
-                                                        child: Text("NÃO"),
-                                                    ),
-                                                    TextButton(
-                                                        onPressed: () => {
-                                                            _controller.deleteReg(i),
-                                                            Navigator.of(context).pop(),
-                                                        },
-                                                        child: Text("SIM"),
-                                                    ),
-                                                ],
-                                            ),
-                                        );
-                                        _controller.atualizarLista();
-                                    },
-                                    icon: Icon(Icons.delete),
-                                )
-                            ],
-                        ),
-                    ),
-                );
+                
+                if (isAuthor){
+                    celulas.add(_deleteEditButtons(lista, context, _controller, i));
+                }
 
                 linhas.add(DataRow(
                     cells: celulas,
@@ -125,7 +134,7 @@ class ListViewer extends StatelessWidget {
         );
     }
 
-    _showListInfo(BuildContext context, Lista lista, _controller) {
+    _showListInfo(BuildContext context, Lista lista, _controller, bool isAuthor) {
         showDialog(
             context: context,
             builder: (context) => Row(
@@ -159,7 +168,7 @@ class ListViewer extends StatelessWidget {
                                         ),
                                     ),
                                     _privacidadeIndicator(lista.isPrivate!),
-                                    CustomButton(
+                                    isAuthor ? CustomButton(
                                         onPressed: () => showDialog(
                                             context: context,
                                             builder: (context) => AlertDialog(
@@ -180,7 +189,8 @@ class ListViewer extends StatelessWidget {
                                         ),
                                         icon: Icon(Icons.delete),
                                         label: "Excluir lista",
-                                    )
+                                    ) : Container()
+                                    
                                 ],
                             ),
                         ),
@@ -201,8 +211,16 @@ class ListViewer extends StatelessWidget {
                     builder: (context, future) {
                         if (future.hasData) {
                             var lista = future.data as Lista;
+                            bool isAuthor = _controller.userId == lista.usuario.id;
+
+                            if (!isAuthor && lista.isPrivate!){
+                                return Text("Esta lista é privada, somente o dono pode acessá-la.", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,),);
+                            }
+                            
 
                             return Column(
+
+                                
                                 children: [
                                     Spacer(),
                                     Row(
@@ -211,12 +229,15 @@ class ListViewer extends StatelessWidget {
                                             PageTitle(texto: lista.titulo ?? ""),
                                             IconButton(
                                                 onPressed: () =>
-                                                        _showListInfo(context, lista, _controller),
+                                                        _showListInfo(context, lista, _controller, isAuthor),
                                                 icon: Icon(Icons.info_outline),
                                             ),
                                         ],
                                     ),
                                     Spacer(),
+
+
+                                    isAuthor ?
                                     CustomButton(
                                         onPressed: () async {
                                             await showDialog(
@@ -227,11 +248,11 @@ class ListViewer extends StatelessWidget {
                                         },
                                         icon: Icon(Icons.add),
                                         label: "Adicionar registro",
-                                    ),
+                                    ) : Container(),
                                     Container(
                                         decoration: BoxDecoration(
                                             border: Border.all(
-                                                color: Theme.of(context).primaryColor,
+                                                color: Theme.of(context).primaryColor
                                             ),
                                             borderRadius: BorderRadius.circular(5),
                                         ),
@@ -240,8 +261,8 @@ class ListViewer extends StatelessWidget {
                                         child: DataTable(
                                             headingRowColor: MaterialStateProperty.all<Color>(
                                                     Theme.of(context).primaryColor.withAlpha(20)),
-                                            columns: _camposLista(lista.registros),
-                                            rows: _registrosLista(lista, _controller, context),
+                                            columns: _camposLista(lista.registros, isAuthor),
+                                            rows: _registrosLista(lista, _controller, context, isAuthor),
                                         ),
                                     ),
                                     Spacer(flex: 5),
