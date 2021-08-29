@@ -90,7 +90,7 @@ class CreateRegistroModalController{
     }
 
     String? validarPreco(String? preco, int index){
-        preco?.replaceAll(",", ".");
+        preco = preco?.replaceAll(",", ".");
 
         try{
             double.parse(preco!);
