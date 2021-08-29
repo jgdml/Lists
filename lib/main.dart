@@ -45,15 +45,29 @@ class JustLists extends StatelessWidget {
                     if (id != null) {
                         return MaterialPageRoute(builder: (context) {
                             new Future.delayed(
-                                    Duration(seconds: 2),
-                                    () => Navigator.of(context).pushReplacementNamed(
-                                            Constants.NAV_LIST_VIEWER,
-                                            arguments: id));
+                                Duration(seconds: 2),
+                                () => Navigator.of(context).pushReplacementNamed(
+                                    Constants.NAV_LIST_VIEWER,
+                                    arguments: id,
+                                ),
+                            );
                             return Center(
                                 child: CircularProgressIndicator(),
                             );
                         });
                     }
+                } else {
+                    return MaterialPageRoute(builder: (context) {
+                        return Center(
+                            child: Text(
+                                "Página não encontrada",
+                                style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                ),
+                            ),
+                        );
+                    });
                 }
             },
             builder: EasyLoading.init(),

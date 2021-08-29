@@ -279,9 +279,20 @@ class ListViewer extends StatelessWidget {
                                     Spacer(flex: 5),
                                 ],
                             );
-                        }
+                        } else if (future.connectionState != ConnectionState.done) {
+                            return Center(
+                                child: CircularProgressIndicator(),
+                            );
+                        } 
+                        
                         return Center(
-                            child: CircularProgressIndicator(),
+                            child: Text(
+                                "Ocorreu um erro ao buscar a lista",
+                                style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                ),
+                            ),
                         );
                     },
                 );
