@@ -12,10 +12,10 @@ class CreateRegistroModalController{
 
     var _validos = <bool>[];
 
-    CreateRegistroModalController(this.lista, editMode){
+    CreateRegistroModalController(this.lista, editMode, regIndex){
 
         if (editMode){
-            valoresPos = lista.registros[0]!.valores!.length-1;
+            valoresPos = regIndex;
             for (int i = 0; i < lista.registros.length; i++){
                 _validos.add(false);
             }

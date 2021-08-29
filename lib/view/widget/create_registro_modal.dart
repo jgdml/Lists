@@ -7,9 +7,10 @@ class CreateRegistroModal extends StatelessWidget {
     final _formState = GlobalKey<FormState>();
     late final CreateRegistroModalController _controller;
     final editMode;
+    final int? regIndex;
 
-    CreateRegistroModal(lista, {this.editMode=false}) {
-        _controller = CreateRegistroModalController(lista, editMode);
+    CreateRegistroModal(lista, {this.editMode=false, this.regIndex}) {
+        _controller = CreateRegistroModalController(lista, editMode, regIndex);
     }
 
     Widget makeField(int index) {

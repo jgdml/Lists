@@ -50,7 +50,7 @@ class ListViewer extends StatelessWidget {
                             await showDialog(
                                 context: context,
                                 builder: (context) =>
-                                        CreateRegistroModal(lista, editMode: true),
+                                        CreateRegistroModal(lista, editMode: true, regIndex: index),
                             );
                             _controller.atualizarLista();
                         },
@@ -269,6 +269,7 @@ class ListViewer extends StatelessWidget {
                                         width: double.infinity,
                                         margin: EdgeInsets.all(20),
                                         child: DataTable(
+                                            sortAscending: false,
                                             headingRowColor: MaterialStateProperty.all<Color>(
                                                     Theme.of(context).primaryColor.withAlpha(20)),
                                             columns: _camposLista(lista.registros, isAuthor),
