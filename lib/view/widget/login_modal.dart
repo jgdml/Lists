@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:just_lists/view/widget/custom_button.dart';
 import 'package:just_lists/view/widget/widget_controller/login_modal_controller.dart';
 
@@ -163,31 +164,33 @@ class _LoginModalState extends State<LoginModal> {
     Widget build(BuildContext context) {
         return BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-            child: AlertDialog(
-                title: _controller.isLogin
-                    ? Text("Entrar na conta")
-                    : Row(
-                        children: [
-                            IconButton(
-                                onPressed: () => _controller.toggleIsLogin(),
-                                icon: Icon(Icons.arrow_back),
-                            ),
-                            Spacer(),
-                            Text("Cadastrar uma nova conta"),
-                            Spacer(flex: 5),
-                        ],
-                    ),
-                content: Container(
-                    width: 500,
-                    height: _controller.isLogin ?  300 : 500,
-                    child: Form(
-                        key: _controller.isLogin ? _formState : _formStateCadastro,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: loginOuCadastro(context),
-                        ),
-                    ),
-                ),
+            child: Observer(
+                builder: (context) => AlertDialog(
+                  title: _controller.isLogin
+                      ? Text("Entrar na conta")
+                      : Row(
+                          children: [
+                              IconButton(
+                                  onPressed: () => _controller.toggleIsLogin(),
+                                  icon: Icon(Icons.arrow_back),
+                              ),
+                              Spacer(),
+                              Text("Cadastrar uma nova conta"),
+                              Spacer(flex: 5),
+                          ],
+                      ),
+                  content: Container(
+                      width: 500,
+                      height: _controller.isLogin ?  300 : 500,
+                      child: Form(
+                          key: _controller.isLogin ? _formState : _formStateCadastro,
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: loginOuCadastro(context),
+                          ),
+                      ),
+                  ),
+              ),
             ),
         );
     }
