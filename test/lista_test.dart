@@ -56,9 +56,15 @@ void main() {
         });
     });
 
-    test("Tipo está na lista de tipos", () {
-        expect(lista.registros.first?.tipo, isIn(Constants.TYPE_NAMES));
+
+    group("Tipos dos registros estão na lista de tipos", (){
+        lista.registros.asMap().forEach((index, registro) {
+            test("Registro "+index.toString(), () {
+                expect(registro!.tipo, isIn(Constants.TYPE_NAMES));
+            });
+        });
     });
+
 
     group("Completude dos registros", () {
         lista.registros.asMap().forEach((index, registro) {
