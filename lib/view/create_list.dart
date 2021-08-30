@@ -76,7 +76,7 @@ class _CreateListState extends State<CreateList> {
 
     Widget campoField(int regPos) {
         return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.symmetric(vertical: 8),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -126,8 +126,6 @@ class _CreateListState extends State<CreateList> {
             child: Container(
                 width: 800,
                 height: 300,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                margin: EdgeInsets.symmetric(vertical: 20),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     border: Border.all(
@@ -198,28 +196,24 @@ class _CreateListState extends State<CreateList> {
                             builder: (_) => DecoratedContainer(
                                 child: Form(
                                     key: _formState,
-                                    child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                        children: [
-                                            titleField(),
-                                            campos(context),
-                                            Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                children: [
-                                                    addCampo(),
-                                                    removeButton(),
-                                                ],
-                                            ),
-                                            Spacer(),
-                                            privacyField(),
-                                            Spacer(
-                                                flex: 2,
-                                            ),
-                                            _controller.isLogado ? saveButton(context) : Container()
-                                        ],
+                                      child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          children: [
+                                              titleField(),
+                                              Expanded(child: campos(context)),
+                                              Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                  children: [
+                                                      addCampo(),
+                                                      removeButton(),
+                                                  ],
+                                              ),
+                                              privacyField(),
+                                              _controller.isLogado ? saveButton(context) : Container()
+                                          ],
+                                      ),
                                     ),
                                 ),
-                            ),
                         ),
                         Spacer(flex: 8),
                     ],
